@@ -1,49 +1,83 @@
 import icon from "../assets/icon.png";
+import Container from "./Container";
+import {useState} from "react";
 
 export default function Header() {
+    const [open, setOpen] = useState(false);
+
     return <>
-        <header className="bg-slate-800">
-            <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-                <div className="flex lg:flex-1">
-                    <a href="#" className="-m-1.5 p-1.5">
-                        <span className="sr-only">Habits Tracker</span>
-                        <img className="h-8 w-auto" src={icon} alt="" />
-                    </a>
-                </div>
-                <div className="hidden lg:flex lg:gap-x-12">
-                    <a href="/" className="text-sm font-semibold leading-6 text-slate-200">Home</a>
-                </div>
-                <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="#!" className="text-sm font-semibold leading-6 text-slate-200 cursor-no-drop" >Sign in <span aria-hidden="true">&rarr;</span></a>
-                </div>
-            </nav>
-            <div className="lg:hidden" role="dialog" aria-modal="true">
-                <div className="fixed inset-0 z-10"></div>
-                <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-slate-800 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                    <div className="flex items-center justify-between">
-                        <a href="#" className="-m-1.5 p-1.5">
-                            <span className="sr-only">Habits Tracker</span>
-                            <img className="h-8 w-auto" src={icon} alt="" />
-                        </a>
-                        <button type="button" className="-m-2.5 rounded-md p-2.5 text-gray-400 hidden">
-                            <span className="sr-only">Close menu</span>
-                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="mt-6 flow-root hidden">
-                        <div class="-my-6 divide-y divide-gray-500/10">
-                            <div class="space-y-2 py-6">
-                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-200 hover:bg-gray-50">Home</a>
+        <Container>
+            <header className={`flex w-full items-center`}>
+                <div className="container">
+                    <div className="relative -mx-4 flex items-center justify-between">
+                        <div className="w-60 max-w-full px-4">
+                            <a href="/" className="block w-full py-5">
+                                <img
+                                    src={icon}
+                                    alt="logo"
+                                    className="h-6"
+                                />
+                            </a>
+                        </div>
+                        <div className="flex w-full items-center justify-between px-4">
+                            <div>
+                                <button
+                                    onClick={() => setOpen(!open)}
+                                    id="navbarToggler"
+                                    className={` ${
+                                        open && "navbarTogglerActive"
+                                    } absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden`}
+                                >
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"></span>
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"></span>
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"></span>
+                                </button>
+                                <nav
+                                    // :className="!navbarOpen && 'hidden' "
+                                    id="navbarCollapse"
+                                    className={`absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white px-6 py-5 shadow dark:bg-dark-2 lg:static lg:block lg:w-full lg:max-w-full lg:shadow-none lg:dark:bg-transparent ${
+                                        !open && "hidden"
+                                    } `}
+                                >
+                                    <ul className="block lg:flex">
+                                        <ListItem NavLink="/">Home</ListItem>
+                                    </ul>
+                                </nav>
                             </div>
-                            <div class="py-6">
-                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-slate-400 hover:bg-slate-900 cursor-no-drop">Log in</a>
+                            <div className="hidden justify-end pr-16 sm:flex lg:pr-0">
+                                <a
+                                    href="/signin"
+                                    className="px-7 py-3 text-base font-medium text-dark hover:text-blue-400 dark:text-white"
+                                >
+                                    Sign in
+                                </a>
+
+                                <a
+                                    href="/signup"
+                                    className="rounded-md bg-blue-500 px-7 py-3 text-base font-medium text-white hover:bg-blue-500/90"
+                                >
+                                    Sign Up
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </header>
-    </>
+            </header>
+        </Container>
+    </>;
 }
+
+const ListItem = ({ children, NavLink }) => {
+    return (
+        <>
+            <li>
+                <a
+                    href={NavLink}
+                    className="flex py-2 text-base font-medium text-body-color hover:text-dark dark:text-dark-6 dark:hover:text-white lg:ml-12 lg:inline-flex"
+                >
+                    {children}
+                </a>
+            </li>
+        </>
+    );
+};
